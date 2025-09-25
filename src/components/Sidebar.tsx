@@ -1,12 +1,14 @@
 import React from 'react';
-import { Home, BookOpen, Package, Users, Building, Factory } from 'lucide-react';
+import { Home, BookOpen, Package, Users, Building, Factory, LogOut } from 'lucide-react';
+import { signOutUser } from '../services/authService';
 
 interface SidebarProps {
   activeModule: string;
   onModuleChange: (module: string) => void;
+  onLogout: () => void;
 }
 
-export default function Sidebar({ activeModule, onModuleChange }: SidebarProps) {
+export default function Sidebar({ activeModule, onModuleChange, onLogout }: SidebarProps) {
   const modules = [
     { id: 'home', name: 'Home', icon: Home },
     { id: 'module1', name: 'Module I: Introduction', icon: BookOpen },
@@ -45,6 +47,26 @@ export default function Sidebar({ activeModule, onModuleChange }: SidebarProps) 
           })}
         </ul>
       </nav>
+      
+      {/* Logout Button */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+        <button
+          onClick={async () => {
+            try {
+              await signOutUser();
+              onLogout();
+            } catch (error) {
+              console.error('Logout error:', error);
+              // Still call onLogout to update UI state
+              onLogout();
+            }
+          }}
+          className="w-full flex items-center space-x-3 p-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="text-sm font-medium">Logout</span>
+        </button>
+      </div>
     </div>
   );
 }
