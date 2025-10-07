@@ -67,39 +67,21 @@ function App() {
     );
   }
 
-  // SSO Authentication - Show user info and app content
+  // SSO Authentication - Show normal app interface
   if (isAuthenticated && user) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <header className="bg-gray-800 text-white p-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-xl font-bold">Welcome, {user.name}!</h1>
-              <p className="text-sm text-gray-300">{user.email}</p>
-              <p className="text-sm text-gray-300">Role: {user.role} | Year: {user.yearOfStudy}</p>
-            </div>
-            <button 
-              onClick={logout}
-              className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded"
-            >
-              Logout
-            </button>
-          </div>
-        </header>
-        
-        <div className="flex">
-          <Sidebar 
-            currentModule={currentModule} 
-            onModuleChange={setCurrentModule} 
-            onLogout={logout} 
-          />
-          <div className="ml-80">
-            <main className="min-h-screen">
-              <ProtectedRoute>
-                {renderContent()}
-              </ProtectedRoute>
-            </main>
-          </div>
+        <Sidebar 
+          currentModule={currentModule} 
+          onModuleChange={setCurrentModule} 
+          onLogout={logout} 
+        />
+        <div className="ml-80">
+          <main className="min-h-screen">
+            <ProtectedRoute>
+              {renderContent()}
+            </ProtectedRoute>
+          </main>
         </div>
       </div>
     );
